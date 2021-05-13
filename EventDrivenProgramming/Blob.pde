@@ -2,6 +2,8 @@ public class Blob extends Sprite
 {
   protected float r;
   protected color myColor;
+  SoundFile soundfile;
+  public Event onClick;
   
   //public Event onCollision;
   
@@ -18,15 +20,23 @@ public class Blob extends Sprite
   //  onCollision.trigger(this, other);
   //}
   
-  public Blob(float x, float y)
+  public Blob(float x, float y, PApplet app)
   {
    super(x, y); 
    myColor = color(random(255), random(255), random(255));
+   setVelocity(new Vector2(random(-5, 5), random(-5, 5)));
+   soundfile = new SoundFile(app, "RingSound.wav");
+   onClick = new Event(Blob.class);
   }
   
   public Blob(Vector2 s)
   {
     super(s); 
+  }
+  
+  public void playSound()
+  {
+    soundfile.play();
   }
   
   public void drawSprite()
@@ -50,6 +60,15 @@ public class Blob extends Sprite
   //  float distance = this.pos.subtract(other.getPosition()).mag();
   //  return distance < this.r + other.getRadius();
   //}
+  
+  public void click()
+  {
+    if(mouseX >= pos.x - 125/2 && mouseX <= pos.x + 125/2 && mouseY >= pos.y - 125/2 && mouseY <= pos.y+125/2)
+    {
+      println("***Blob Clicked!***");
+      onClick.trigger(this);
+    }
+  }
   
   public void keyboardControl()
   {

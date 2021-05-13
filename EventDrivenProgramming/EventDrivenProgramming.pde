@@ -1,3 +1,5 @@
+import processing.sound.*;
+SoundFile soundfile;
 Button button = new Button(100, 100, "Button");
 
 ArrayList< Blob> theBlobs;
@@ -18,8 +20,14 @@ void setup()
 
 void button_clicked(Button sender)
 {
-  Blob blob = new Blob(random(800), random(800));
+  Blob blob = new Blob(random(800), random(800), this);
+  blob.onClick.bind(this, "blob_clicked");
   theBlobs.add(blob);
+}
+
+void blob_clicked(Blob sender)
+{
+  sender.playSound();
 }
 
 //void blockCollision_action(Blob sender, Sprite other)
@@ -63,4 +71,8 @@ void draw()
 void mouseClicked()
 {
   button.click();
+  for (Blob b : theBlobs)
+  {
+    b.click();
+  }
 }
